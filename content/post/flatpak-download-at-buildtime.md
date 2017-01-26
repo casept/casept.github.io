@@ -4,6 +4,7 @@ title = "Downloading files from the internet during a flatpak build"
 categories = ["flatpak", "linux"]
 tags = ["flatpak" , "linux"]
 description = "Downloading files from the internet during a flatpak build"
+author = "casept"
 +++
 
 Flatpak's [official documentation](http://flatpak.org/developer.html) explains how to automate the building of flatpaks.
