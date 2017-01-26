@@ -21,7 +21,7 @@ npm WARN retry will retry, error on last attempt: Error: getaddrinfo EAI_AGAIN g
 
 The best way to work around this limitation is by adding
 
-```
+```json
 "build-options" : { 
    "build-args": [ 
       "--share=network"                                                                                   
