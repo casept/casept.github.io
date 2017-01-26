@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Downloading files from the internet during a flatpak build - My blog, which I may or may not update from time to time</title>
+  <title>Downloading files from the internet during a flatpak build - David Paskevic&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="">
   <meta name="author" content="">
@@ -28,7 +28,7 @@
   <header class="site-header px2 px-responsive">
   <div class="mt2 wrap">
     <div class="measure">
-      <a href="https://casept.github.io/" class="site-title">My blog, which I may or may not update from time to time</a>
+      <a href="https://casept.github.io/" class="site-title">David Paskevic&#39;s blog</a>
       <nav class="site-nav right">
       <a href="/about/">About</a>
 <a href="/tags">Tags</a>
@@ -46,7 +46,7 @@
     <div class="measure">
       <div class="post-header mb2">
         <h1 class="py2">Downloading files from the internet during a flatpak build</h1>
-        <span class="post-meta">Jan 26, 2017 by </span><br>
+        <span class="post-meta">Jan 26, 2017 by casept</span><br>
         
       </div>
 
@@ -64,7 +64,7 @@ npm WARN retry will retry, error on last attempt: Error: getaddrinfo EAI_AGAIN g
 
 <p>The best way to work around this limitation is by adding</p>
 
-<pre><code>&quot;build-options&quot; : { 
+<pre><code class="language-json">&quot;build-options&quot; : { 
    &quot;build-args&quot;: [ 
       &quot;--share=network&quot;                                                                                   
       ] 
