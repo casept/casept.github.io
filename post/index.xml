@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-      <title>My blog, which I may or may not update from time to time on My blog, which I may or may not update from time to time </title>
+      <title>Posts on My blog, which I may or may not update from time to time </title>
       <generator uri="https://gohugo.io">Hugo</generator>
-    <link>https://casept.github.io/index.xml</link>
+    <link>https://casept.github.io/post/index.xml</link>
     <language>en-us</language>
     
     

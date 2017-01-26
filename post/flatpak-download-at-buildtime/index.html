@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Downloading files from the internet during a flatpak build - My blog, which I may or may not update from time to time</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <meta name="keywords" content="">
+  <link rel="canonical" href="https://casept.github.io/post/flatpak-download-at-buildtime/">
+
+  
+  
+
+  
+  
+
+  
+  
+
+  <link rel="stylesheet" type="text/css" href="https://casept.github.io//css/combined-min.css">
+
+</head>
+<body class="">
+
+<div class="site-wrap">
+  <header class="site-header px2 px-responsive">
+  <div class="mt2 wrap">
+    <div class="measure">
+      <a href="https://casept.github.io/" class="site-title">My blog, which I may or may not update from time to time</a>
+      <nav class="site-nav right">
+      <a href="/about/">About</a>
+<a href="/tags">Tags</a>
+<a href="/contact/">Contact</a>
+
+</form>
+
+      </nav>
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</header>
+
+  <div class="post p2 p-responsive wrap" role="main">
+    <div class="measure">
+      <div class="post-header mb2">
+        <h1 class="py2">Downloading files from the internet during a flatpak build</h1>
+        <span class="post-meta">Jan 26, 2017 by </span><br>
+        
+      </div>
+
+      <article class="post-content">
+      <p>Flatpak&rsquo;s <a href="http://flatpak.org/developer.html">official documentation</a> explains how to automate the building of flatpaks.
+However, what it does not mention is how the build sandbox is configured not to allow &ldquo;unfiltered&rdquo; access to the network at build time.
+This means that it can be very tricky to build some applications that rely on pulling in dependencies after you have cloned the repo or downloaded the tarball.
+An example for this are Node.js projects, which require the usage of <code>npm</code> in order to install dependencies.
+The build fails with symptoms such as:</p>
+
+<pre><code>npm install
+npm ERR! fetch failed https://github.com/beeman/node-df/tarball/master
+npm WARN retry will retry, error on last attempt: Error: getaddrinfo EAI_AGAIN github.com:443
+</code></pre>
+
+<p>The best way to work around this limitation is by adding</p>
+
+<pre><code>&quot;build-options&quot; : { 
+   &quot;build-args&quot;: [ 
+      &quot;--share=network&quot;                                                                                   
+      ] 
+   },
+</code></pre>
+
+<p>to your <code>name.of.your.app.json</code> file, right below the <code>name:</code> field of the module.</p>
+
+<p>Do note that there&rsquo;s a reason for this behaviour in flatpak: without it reproducible builds are not possible, as the build script could fetch any number of versions of dependencies from the internet.</p>
+
+      </article>
+
+      <p class="post-meta">Tags:&nbsp;
+        
+            
+            <a href="https://casept.github.io//tags/flatpak">flatpak</a>
+        
+            ,&nbsp;
+            <a href="https://casept.github.io//tags/linux">linux</a>
+        
+      </p>
+
+      
+
+    </div>
+  </div>
+</div>
+    <footer class="footer">
+      <div class="p2 wrap">
+        <div class="measure mt1 center">
+      <nav class="social-icons icons">
+<a class="fa fa-rss rss" href="/index.xml"></a>
+
+</nav>
+
+          <small>
+            Copyright &#169; 2015<br>
+            Powered by <a href="http://gohugo.io/" target="_blank">Hugo</a> &amp; <a href="https://github.com/azmelanar/hugo-theme-pixyll" target="_blank">Pixyll</a>
+          </small>
+        </div>
+      </div>
+    </footer>
+
+    
+    <script src="/js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    
+    
+
+
+</body>
+</html>
+
