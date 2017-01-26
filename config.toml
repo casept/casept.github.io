@@ -1,4 +1,7 @@
 languageCode = "en-us"
-title = "My blog, which I may or may not update from time to time"
+title = "David Paskevic's blog"
 baseURL = "https://casept.github.io/"
 theme = "hugo-theme-pixyll"
+
+[params]
+  description = "My blog, which I may or may not update from time to time."
