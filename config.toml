@@ -5,3 +5,4 @@ theme = "hugo-theme-pixyll"
 
 [params]
   description = "My blog, which I may or may not update from time to time."
+  author = "casept"
