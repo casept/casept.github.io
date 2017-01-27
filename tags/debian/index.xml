@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-      <title>Posts on David Paskevic&#39;s blog </title>
+      <title>Debian on David Paskevic&#39;s blog </title>
       <generator uri="https://gohugo.io">Hugo</generator>
-    <link>https://casept.github.io/post/index.xml</link>
+    <link>https://casept.github.io/tags/debian/index.xml</link>
     <language>en-us</language>
     
     
-    <updated>Fri, 27 Jan 2017 07:24:28 CET</updated>
+    <updated>Mon, 01 Jan 0001 00:00:00 UTC</updated>
     
     <item>
       <title>Fixing chromium in debian unstable</title>
@@ -16,15 +16,6 @@
       
       <guid>https://casept.github.io/post/fix-debian-chromium/</guid>
       <description>For some (in my opinion pants-on-head-retarded) reason the maintainers of the chromium package in debian have chosen to disallow loading of extensions from the chrome store. They claim that this will pave the way towards &amp;ldquo;distro-packaged&amp;rdquo; extensions, but as of yet I haven&amp;rsquo;t seen a single one in the repos, not even ublock. What&amp;rsquo;s worse, the only notice you get is if you upgrade from a version before this &amp;ldquo;fix&amp;rdquo; was applied.</description>
-    </item>
-    
-    <item>
-      <title>Downloading files from the internet during a flatpak build</title>
-      <link>https://casept.github.io/post/flatpak-download-at-buildtime/</link>
-      <pubDate>Thu, 26 Jan 2017 17:04:28 CET</pubDate>
-      
-      <guid>https://casept.github.io/post/flatpak-download-at-buildtime/</guid>
-      <description>Flatpak&amp;rsquo;s official documentation explains how to automate the building of flatpaks. However, what it does not mention is how the build sandbox is configured not to allow &amp;ldquo;unfiltered&amp;rdquo; access to the network at build time. This means that it can be very tricky to build some applications that rely on pulling in dependencies after you have cloned the repo or downloaded the tarball. An example for this are Node.js projects, which require the usage of npm in order to install dependencies.</description>
     </item>
     
   </channel>
