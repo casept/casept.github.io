@@ -58,7 +58,7 @@ They claim that this will pave the way towards &ldquo;distro-packaged&rdquo; ext
 What&rsquo;s worse, the only notice you get is if you upgrade from a version before this &ldquo;fix&rdquo; was applied.
 Users on the mailing list <a href="https://lists.alioth.debian.org/pipermail/pkg-chromium-maint/2017-January/008959.html">ain&rsquo;t happy either</a>.</p>
 
-<h3 id="how-to-unfuck-this">How to unfuck this ###</h3>
+<h3 id="how-to-unfuck-this">How to unfuck this</h3>
 
 <p>The best way I have found is to edit the .desktop file at <code>/usr/share/applications/chromium.desktop</code> and replace the line <code>Exec=/usr/bin/chromium %U</code> with <code>Exec=/usr/bin/chromium --enable-remote-extensions %U</code>.
 I certainly hope the maintainers come to their senses, as doing this after every update is ridicilously inconvenient and it breaks the chromium ecosystem.</p>
