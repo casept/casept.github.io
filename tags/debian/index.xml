@@ -10,6 +10,18 @@
     <updated>Mon, 01 Jan 0001 00:00:00 UTC</updated>
     
     <item>
+      <title>Installing snapcraft on debian sid</title>
+      <link>https://casept.github.io/post/install-snapcraft-on-debian/</link>
+      <pubDate>Mon, 13 Feb 2017 07:24:28 CET</pubDate>
+      
+      <guid>https://casept.github.io/post/install-snapcraft-on-debian/</guid>
+      <description>Canonical&amp;rsquo;s snapcraft tool unfortunately currently isn&amp;rsquo;t packaged for debian. In this post I&amp;rsquo;ll describe how I got a build of it to work on my machine™. Note that this is a messy process which will give any of the &amp;ldquo;don&amp;rsquo;t make a frankendebian!&amp;rdquo; guys eye cancer, and for good reason.
+What you&amp;rsquo;ll need  patience
+ free time
+ a machine running debian sid (stretch/jessie might work, haven&amp;rsquo;t tested)</description>
+    </item>
+    
+    <item>
       <title>Fixing chromium in debian unstable</title>
       <link>https://casept.github.io/post/fix-debian-chromium/</link>
       <pubDate>Fri, 27 Jan 2017 07:24:28 CET</pubDate>

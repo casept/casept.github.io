@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Installing snapcraft on debian sid - David Paskevic&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <meta name="keywords" content="">
+  <link rel="canonical" href="https://casept.github.io/post/install-snapcraft-on-debian/">
+
+  
+  
+
+  
+  
+
+  
+  
+
+  <link rel="stylesheet" type="text/css" href="https://casept.github.io//css/combined-min.css">
+
+</head>
+<body class="">
+
+<div class="site-wrap">
+  <header class="site-header px2 px-responsive">
+  <div class="mt2 wrap">
+    <div class="measure">
+      <a href="https://casept.github.io/" class="site-title">David Paskevic&#39;s blog</a>
+      <nav class="site-nav right">
+      <a href="/about/">About</a>
+<a href="/tags">Tags</a>
+<a href="/contact/">Contact</a>
+
+</form>
+
+      </nav>
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</header>
+
+  <div class="post p2 p-responsive wrap" role="main">
+    <div class="measure">
+      <div class="post-header mb2">
+        <h1 class="py2">Installing snapcraft on debian sid</h1>
+        <span class="post-meta">Feb 13, 2017 by casept</span><br>
+        
+      </div>
+
+      <article class="post-content">
+      
+
+<p>Canonical&rsquo;s snapcraft tool unfortunately currently isn&rsquo;t packaged for debian. In this post I&rsquo;ll describe how I got a build of it to work on my machine™.
+Note that this is a messy process which will give any of the &ldquo;don&rsquo;t make a frankendebian!&rdquo; guys eye cancer, and for good reason.</p>
+
+<h3 id="what-you-ll-need">What you&rsquo;ll need</h3>
+
+<ul>
+<li>patience<br /></li>
+<li>free time<br /></li>
+<li>a machine running debian sid (stretch/jessie might work, haven&rsquo;t tested)<br /></li>
+</ul>
+
+<h3 id="how-to">How to</h3>
+
+<h4 id="step-1-install-some-of-the-dependencies">Step 1: Install (some of the) dependencies</h4>
+
+<pre><code>sudo apt update &amp;&amp; sudo apt install -y build-essential dpkg-dev wget git debhelper pkg-config python3-docopt python3-fixtures python3-jsonschema python3-libarchive-c python3-lxml python3-magic python3-progressbar python3-pymacaroons python3-requests-toolbelt python3-responses python3-simplejson python3-setuptools python3-tabulate python3-testscenarios python3-testtools python3-xdg python3-yaml squashfs-tools xdelta3 
+
+</code></pre>
+
+<h4 id="step-2-clone-the-latest-snapcraft">Step 2: Clone the latest snapcraft</h4>
+
+<p>The stable version (2.26) had some issues when I tried to use it, so we&rsquo;ll build from git.</p>
+
+<pre><code>mkdir snapcraft &amp;&amp; cd snapcraft
+git clone https://github.com/snapcore/snapcraft
+</code></pre>
+
+<h4 id="step-3-build-a-frankendebian">Step 3: Build a frankendebian</h4>
+
+<p>The packages <code>python3-petname</code> and <code>python3-pysha3</code> are currently not packaged in debian, so we&rsquo;ll download them from ubuntu.
+This <em>should</em> be low risk, given that those packages have few dependencies and are generally not tightly coupled with other packages.</p>
+
+<pre><code>wget http://de.archive.ubuntu.com/ubuntu/pool/main/p/python-petname/python3-petname_2.0-0ubuntu1_all.deb
+sudo dpkg -i python3-petname_2.0-0ubuntu1_all.deb
+wget http://de.archive.ubuntu.com/ubuntu/pool/universe/p/pysha3/python3-pysha3_1.0.0-0ubuntu1_amd64.deb
+sudo dpkg -i python3-pysha3_1.0.0-0ubuntu1_amd64.deb
+sudo apt -f install
+</code></pre>
+
+<h4 id="step-4-build-the-package">Step 4: Build the package</h4>
+
+<pre><code>cd snapcraft
+#Tests are currently broken, disable them
+export DEB_BUILD_OPTIONS=nocheck
+dpkg-buildpackage -us -uc
+</code></pre>
+
+<h4 id="step-5-install">Step 5: Install</h4>
+
+<pre><code>sudo dpkg -i ../snapcraft_*.deb
+</code></pre>
+
+<p>Profit!</p>
+
+      </article>
+
+      <p class="post-meta">Tags:&nbsp;
+        
+            
+            <a href="https://casept.github.io//tags/debian">debian</a>
+        
+            ,&nbsp;
+            <a href="https://casept.github.io//tags/linux">linux</a>
+        
+            ,&nbsp;
+            <a href="https://casept.github.io//tags/snap">snap</a>
+        
+      </p>
+
+      
+
+    </div>
+  </div>
+</div>
+    <footer class="footer">
+      <div class="p2 wrap">
+        <div class="measure mt1 center">
+      <nav class="social-icons icons">
+<a class="fa fa-rss rss" href="/index.xml"></a>
+
+</nav>
+
+          <small>
+            Copyright &#169; 2017<br>
+            Powered by <a href="http://gohugo.io/" target="_blank">Hugo</a> &amp; <a href="https://github.com/azmelanar/hugo-theme-pixyll" target="_blank">Pixyll</a>
+          </small>
+        </div>
+      </div>
+    </footer>
+
+    
+    <script src="/js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    
+    
+
+
+</body>
+</html>
+

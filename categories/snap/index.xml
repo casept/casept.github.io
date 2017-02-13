@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-      <title>Debian on David Paskevic&#39;s blog </title>
+      <title>Snap on David Paskevic&#39;s blog </title>
       <generator uri="https://gohugo.io">Hugo</generator>
-    <link>https://casept.github.io/categories/debian/index.xml</link>
+    <link>https://casept.github.io/categories/snap/index.xml</link>
     <language>en-us</language>
     
     
@@ -19,15 +19,6 @@
 What you&amp;rsquo;ll need  patience
  free time
  a machine running debian sid (stretch/jessie might work, haven&amp;rsquo;t tested)</description>
-    </item>
-    
-    <item>
-      <title>Fixing chromium in debian unstable</title>
-      <link>https://casept.github.io/post/fix-debian-chromium/</link>
-      <pubDate>Fri, 27 Jan 2017 07:24:28 CET</pubDate>
-      
-      <guid>https://casept.github.io/post/fix-debian-chromium/</guid>
-      <description>For some (in my opinion pants-on-head-retarded) reason the maintainers of the chromium package in debian have chosen to disallow loading of extensions from the chrome store. They claim that this will pave the way towards &amp;ldquo;distro-packaged&amp;rdquo; extensions, but as of yet I haven&amp;rsquo;t seen a single one in the repos, not even ublock. What&amp;rsquo;s worse, the only notice you get is if you upgrade from a version before this &amp;ldquo;fix&amp;rdquo; was applied.</description>
     </item>
     
   </channel>
