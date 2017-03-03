@@ -10,6 +10,16 @@
     <updated>Mon, 01 Jan 0001 00:00:00 UTC</updated>
     
     <item>
+      <title>Building code::blocks on ubuntu 16.04</title>
+      <link>https://casept.github.io/post/compile-codeblocks/</link>
+      <pubDate>Fri, 03 Mar 2017 17:04:28 CET</pubDate>
+      
+      <guid>https://casept.github.io/post/compile-codeblocks/</guid>
+      <description>I&amp;rsquo;m currently creating a snap package for the code::blocks IDE. On the way, I ran into a little snag, namely the build failing with:
+make -j2 CDPATH=&amp;quot;${ZSH_VERSION+.}:&amp;quot; &amp;amp;&amp;amp; cd . &amp;amp;&amp;amp; /bin/bash /home/david/dev/snap/snap-codeblocks/parts/codeblocks/build/missing aclocal-1.13 -I m4 /home/david/dev/snap/snap-codeblocks/parts/codeblocks/build/missing: line 81: aclocal-1.13: command not found WARNING: &#39;aclocal-1.13&#39; is missing on your system. You should only need it if you modified &#39;acinclude.m4&#39; or &#39;configure.ac&#39; or m4 files included by &#39;configure.ac&#39;. The &#39;aclocal&#39; program is part of the GNU Automake package: &amp;lt;http://www.</description>
+    </item>
+    
+    <item>
       <title>Installing snapcraft on debian sid</title>
       <link>https://casept.github.io/post/install-snapcraft-on-debian/</link>
       <pubDate>Mon, 13 Feb 2017 07:24:28 CET</pubDate>
