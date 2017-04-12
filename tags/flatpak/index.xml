@@ -3,11 +3,11 @@
   <channel>
       <title>Flatpak on David Paskevic&#39;s blog </title>
       <generator uri="https://gohugo.io">Hugo</generator>
-    <link>https://casept.github.io/tags/flatpak/index.xml</link>
+    <link>https://casept.github.io/tags/flatpak/</link>
     <language>en-us</language>
     
     
-    <updated>Mon, 01 Jan 0001 00:00:00 UTC</updated>
+    <updated>Thu, 26 Jan 2017 17:04:28 CET</updated>
     
     <item>
       <title>Downloading files from the internet during a flatpak build</title>

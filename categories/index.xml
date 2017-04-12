@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+      <title>Categories on David Paskevic&#39;s blog </title>
+      <generator uri="https://gohugo.io">Hugo</generator>
+    <link>https://casept.github.io/categories/</link>
+    <language>en-us</language>
+    
+    
+    <updated>Mon, 01 Jan 0001 00:00:00 UTC</updated>
+    
+    <item>
+      <title>Debian</title>
+      <link>https://casept.github.io/categories/debian/</link>
+      <pubDate>Mon, 13 Feb 2017 07:24:28 CET</pubDate>
+      
+      <guid>https://casept.github.io/categories/debian/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Flatpak</title>
+      <link>https://casept.github.io/categories/flatpak/</link>
+      <pubDate>Thu, 26 Jan 2017 17:04:28 CET</pubDate>
+      
+      <guid>https://casept.github.io/categories/flatpak/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Linux</title>
+      <link>https://casept.github.io/categories/linux/</link>
+      <pubDate>Fri, 03 Mar 2017 17:04:28 CET</pubDate>
+      
+      <guid>https://casept.github.io/categories/linux/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Snap</title>
+      <link>https://casept.github.io/categories/snap/</link>
+      <pubDate>Mon, 13 Feb 2017 07:24:28 CET</pubDate>
+      
+      <guid>https://casept.github.io/categories/snap/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>
+
