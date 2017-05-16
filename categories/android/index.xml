@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+      <title>Android on David Paskevic&#39;s blog </title>
+      <generator uri="https://gohugo.io">Hugo</generator>
+    <link>https://casept.github.io/categories/android/</link>
+    <language>en-us</language>
+    
+    
+    <updated>Tue, 16 May 2017 07:24:28 &#43;0100</updated>
+    
+    <item>
+      <title>Building LineageOS 14.1 for the S4 value edition (GT-I9515 or jfvelte)</title>
+      <link>https://casept.github.io/post/build-lineageos-for-gt-i9515/</link>
+      <pubDate>Tue, 16 May 2017 07:24:28 &#43;0100</pubDate>
+      
+      <guid>https://casept.github.io/post/build-lineageos-for-gt-i9515/</guid>
+      <description>While there&amp;rsquo;s plenty of documentation on how to build LineageOS for officially supported devices, there&amp;rsquo;s hardly any documentation on how to build for an unofficial device and/or on systems which have &amp;lt;16GB RAM and a slower CPU. A lot of the workarounds might be useful for other devices as well. I&amp;rsquo;ll assume that you&amp;rsquo;re using Ubuntu 16.04, though I&amp;rsquo;m sure other distros will work with slight modifications.
+Installing dependencies Install some packages:</description>
+    </item>
+    
+  </channel>
+</rss>
+

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Building LineageOS 14.1 for the S4 value edition (GT-I9515 or jfvelte) - David Paskevic&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <meta name="keywords" content="">
+  <link rel="canonical" href="https://casept.github.io/post/build-lineageos-for-gt-i9515/">
+
+  
+  
+
+  
+  
+
+  
+  
+
+  <link rel="stylesheet" type="text/css" href="https://casept.github.io//css/combined-min.css">
+
+</head>
+<body class="">
+
+<div class="site-wrap">
+  <header class="site-header px2 px-responsive">
+  <div class="mt2 wrap">
+    <div class="measure">
+      <a href="https://casept.github.io/" class="site-title">David Paskevic&#39;s blog</a>
+      <nav class="site-nav right">
+      <a href="/about/">About</a>
+<a href="/tags">Tags</a>
+<a href="/contact/">Contact</a>
+
+</form>
+
+      </nav>
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</header>
+
+  <div class="post p2 p-responsive wrap" role="main">
+    <div class="measure">
+      <div class="post-header mb2">
+        <h1 class="py2">Building LineageOS 14.1 for the S4 value edition (GT-I9515 or jfvelte)</h1>
+        <span class="post-meta">May 16, 2017 by casept</span><br>
+        
+      </div>
+
+      <article class="post-content">
+      
+
+<p>While there&rsquo;s plenty of documentation on how to build LineageOS for officially supported devices, there&rsquo;s hardly any documentation on how to build for an unofficial device and/or on systems which have &lt;16GB RAM and a slower CPU. <strong>A lot of the workarounds might be useful for other devices as well.</strong>
+I&rsquo;ll assume that you&rsquo;re using Ubuntu 16.04, though I&rsquo;m sure other distros will work with slight modifications.</p>
+
+<h3 id="installing-dependencies">Installing dependencies</h3>
+
+<p>Install some packages:</p>
+
+<pre><code>sudo apt-get install repo bc bison build-essential curl flex g++-multilib gcc-multilib git gnupg gperf imagemagick lib32ncurses5-dev lib32readline-6-dev lib32z1-dev libesd0-dev liblz4-tool libncurses5-dev libsdl1.2-dev libwxgtk3.0-dev libxml2 libxml2-utils lzop pngcrush schedtool squashfs-tools xsltproc zip zlib1g-dev openjdk-8-jdk phablet-tools
+</code></pre>
+
+<h3 id="preparing-your-source-directory">Preparing your source directory</h3>
+
+<p>Next, find a drive with at least ~150GB of free space (preferably a mechanical one, as constant rebuilds will kill a SSD) and a recent filesystem with case sensitivity and unix permissions support (Such as ext3 or ext4).
+<code>cd</code> to your drive and create a folder to hold all android source code:</p>
+
+<pre><code>mkdir lineage-14.1
+cd lineage-14.1
+</code></pre>
+
+<p>Initialize your local repo:</p>
+
+<pre><code>repo init -u https://github.com/LineageOS/android.git -b cm-14.1
+</code></pre>
+
+<p>Now come the custom parts. First, create the file <code>roomservice.xml</code>:</p>
+
+<pre><code>mkdir -p .repo/local_manifests/
+vim .repo/local_manifests/roomservice.xml
+</code></pre>
+
+<p>Paste the following into that file:</p>
+
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;                                                                                                      
+&lt;manifest&gt;                                                                                                                                  
+  &lt;project name=&quot;jfvelte-dev/android_device_samsung_jfvelte&quot; path=&quot;device/samsung/jfvelte&quot; remote=&quot;github&quot; revision=&quot;cm-14.1&quot;/&gt;             
+  &lt;project name=&quot;jfvelte-dev/proprietary_vendor_samsung&quot; path=&quot;vendor/samsung&quot; remote=&quot;github&quot; revision=&quot;cm-14.1&quot;/&gt;                         
+  &lt;project name=&quot;jfvelte-dev/android_kernel_samsung_jf&quot; path=&quot;kernel/samsung/jf&quot; remote=&quot;github&quot; revision=&quot;cm-14.1&quot;/&gt;                       
+  &lt;project name=&quot;LineageOS/android_device_qcom_common&quot; path=&quot;device/qcom/common&quot; remote=&quot;github&quot; revision=&quot;cm-14.1&quot;/&gt;                       
+  &lt;project name=&quot;LineageOS/android_device_samsung_qcom-common&quot; path=&quot;device/samsung/qcom-common&quot; remote=&quot;github&quot; revision=&quot;cm-14.1&quot;/&gt;       
+  &lt;project name=&quot;LineageOS/android_external_stlport&quot; path=&quot;external/stlport&quot; remote=&quot;github&quot; revision=&quot;cm-14.1&quot;/&gt;                           
+  &lt;project name=&quot;LineageOS/android_hardware_samsung&quot; path=&quot;hardware/samsung&quot; remote=&quot;github&quot; revision=&quot;cm-14.1&quot;/&gt;                           
+  &lt;project name=&quot;LineageOS/android_packages_resources_devicesettings&quot; path=&quot;packages/resources/devicesettings&quot; remote=&quot;github&quot; revision=&quot;cm-14.1&quot;/&gt;                                                                                                                                     
+&lt;/manifest&gt;
+</code></pre>
+
+<p>and save.</p>
+
+<p>Now checkout the source code:</p>
+
+<pre><code>repo sync
+</code></pre>
+
+<p>This will take a few hours and download ~50GB.</p>
+
+<p>Once the download has finished, run</p>
+
+<pre><code>source build/envsetup.sh
+</code></pre>
+
+<p>to initialize your build environment.</p>
+
+<h3 id="a-posibly-unnecessary-step">A (posibly unnecessary) step</h3>
+
+<p>You might have to fix a missing dependency declaration. Open the file <code>device/samsung/jfvelte/lineage.dependencies</code>:</p>
+
+<pre><code>vim device/samsung/jfvelte/lineage.dependencies
+</code></pre>
+
+<p>And paste in the following before the final &ldquo;<code>]</code>&ldquo;:</p>
+
+<pre><code>  {                                                                                                                                         
+    &quot;repository&quot;: &quot;android_packages_resources_devicesettings&quot;,                                                                              
+    &quot;target_path&quot;: &quot;packages/resources/devicesettings&quot;                                                                                      
+  }
+</code></pre>
+
+<h3 id="enabling-ccache">Enabling ccache</h3>
+
+<p>Create a directory in a suitable location with ~100GB of free space (You can use the same drive as for the sources). Then enable <code>ccache</code> and point it towards that directory:</p>
+
+<pre><code>export USE_CCACHE=1
+export CCACHE_DIR=/PATH/to/YOUR/Directory/.ccache
+</code></pre>
+
+<p>And tell it how much space to use:</p>
+
+<pre><code>prebuilts/misc/linux-x86/ccache/ccache -M 100G
+</code></pre>
+
+<h3 id="additional-configuration">Additional configuration</h3>
+
+<p>If you wish to have root baked into your build, run</p>
+
+<pre><code>export WITH_SU=true
+</code></pre>
+
+<p><strong>If your PC has ~2 cores or less</strong> you need to build some components manually first due to broken dependency resolution (I guess the bug hasn&rsquo;t been caught yet because most LineageOS devs have beefier machines than that.) Run:</p>
+
+<pre><code>mka org.cyanogenmod.platform-res
+</code></pre>
+
+<p>and wait for it to finish.</p>
+
+<p><strong>If you have &lt;16GB RAM</strong> you also need to tweak the jack build server (it&rsquo;s used to compile the java parts, such as apps) to use less memory. Let it generate config files by running</p>
+
+<pre><code>prebuilts/sdk/tools/jack-admin start-server &amp;&amp; prebuilts/sdk/tools/jack-admin kill-server
+</code></pre>
+
+<p>Then edit it&rsquo;s config file:</p>
+
+<pre><code>vim ~/.jack-settings
+</code></pre>
+
+<p>and add a line:</p>
+
+<pre><code>SERVER_NB_COMPILE=1
+</code></pre>
+
+<p>If you have more RAM you can try increasing that number to 2, though I wouldn&rsquo;t recommend risking it, as guessing wrong will cause the build server to run out of memory and fail. Because there&rsquo;s no <code>ccache</code> equivalent for java all the java stuff will have to be recompiled on failure, which can take hours. You also have to tell jack how much memory it can use and start it manually:</p>
+
+<pre><code>export JACK_SERVER_VM_ARGUMENTS=&quot;-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx4g&quot;
+prebuilts/sdk/tools/jack-admin kill-server &amp;&amp; prebuilts/sdk/tools/jack-admin start-server
+</code></pre>
+
+<h3 id="building">Building</h3>
+
+<p>You should finally be good to go!<br />
+Run <code>brunch jfvelte</code> and hope for the best. A flashable zip will be waiting for you in <code>out/target/product/jfvelte/</code>. Flash that and you should be finished!<br />
+Just don&rsquo;t forget to kill the jack server:</p>
+
+<pre><code>prebuilts/sdk/tools/jack-admin kill-server
+</code></pre>
+
+<p>or you won&rsquo;t be able to cleanly unmount the drive.</p>
+
+      </article>
+
+      <p class="post-meta">Tags:&nbsp;
+        
+            
+            <a href="https://casept.github.io//tags/android">android</a>
+        
+      </p>
+
+      
+
+    </div>
+  </div>
+</div>
+    <footer class="footer">
+      <div class="p2 wrap">
+        <div class="measure mt1 center">
+      <nav class="social-icons icons">
+<a class="fa fa-rss rss" href="/index.xml"></a>
+
+</nav>
+
+          <small>
+            Copyright &#169; 2017<br>
+            Powered by <a href="http://gohugo.io/" target="_blank">Hugo</a> &amp; <a href="https://github.com/azmelanar/hugo-theme-pixyll" target="_blank">Pixyll</a>
+          </small>
+        </div>
+      </div>
+    </footer>
+
+    
+    <script src="/js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    
+    
+
+
+</body>
+</html>
+
