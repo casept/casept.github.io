@@ -96,6 +96,7 @@ export WITH_SU=true
 
 **If your PC has ~2 cores or less** you need to build some components manually first due to broken dependency resolution (I guess the bug hasn't been caught yet because most LineageOS devs have beefier machines than that.) Run:
 ```
+breakfast jfvelte
 mka org.cyanogenmod.platform-res
 ```
 and wait for it to finish.
