@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+      <title>Tor on David Paskevic&#39;s blog </title>
+      <generator uri="https://gohugo.io">Hugo</generator>
+    <link>https://casept.github.io/categories/tor/</link>
+    <language>en-us</language>
+    
+    
+    <updated>Tue, 26 Dec 2017 07:24:28 &#43;0100</updated>
+    
+    <item>
+      <title>Bypassing pesky SSH-blocking firewalls</title>
+      <link>https://casept.github.io/post/bypass-ssh-firewall/</link>
+      <pubDate>Tue, 26 Dec 2017 07:24:28 &#43;0100</pubDate>
+      
+      <guid>https://casept.github.io/post/bypass-ssh-firewall/</guid>
+      <description>I&amp;rsquo;m writing this on a bus with onboard Wi-Fi. The network works (and is decently fast!), but the provider blocks SSH for some reason, which means I can&amp;rsquo;t push my code to github without reconfiguring my remotes to use HTTP.
+Fortunately, bypassing the firewall is fairly simple:
+ Install your tools:
+  sudo apt install tor proxychains # Disable tor service if you don&#39;t want to start it on boot sudo systemctl disable tor  In my case the provider also blocked the default tor relays, so I had to obtain some bridges from bridges.</description>
+    </item>
+    
+  </channel>
+</rss>
+

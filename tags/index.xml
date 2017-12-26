@@ -21,7 +21,7 @@
     <item>
       <title>Debian</title>
       <link>https://casept.github.io/tags/debian/</link>
-      <pubDate>Mon, 13 Feb 2017 07:24:28 CET</pubDate>
+      <pubDate>Tue, 26 Dec 2017 07:24:28 &#43;0100</pubDate>
       
       <guid>https://casept.github.io/tags/debian/</guid>
       <description></description>
@@ -30,7 +30,7 @@
     <item>
       <title>Flatpak</title>
       <link>https://casept.github.io/tags/flatpak/</link>
-      <pubDate>Thu, 26 Jan 2017 17:04:28 CET</pubDate>
+      <pubDate>Thu, 26 Jan 2017 17:04:28 &#43;0100</pubDate>
       
       <guid>https://casept.github.io/tags/flatpak/</guid>
       <description></description>
@@ -39,7 +39,7 @@
     <item>
       <title>Linux</title>
       <link>https://casept.github.io/tags/linux/</link>
-      <pubDate>Fri, 03 Mar 2017 17:04:28 CET</pubDate>
+      <pubDate>Tue, 26 Dec 2017 07:24:28 &#43;0100</pubDate>
       
       <guid>https://casept.github.io/tags/linux/</guid>
       <description></description>
@@ -48,9 +48,18 @@
     <item>
       <title>Snap</title>
       <link>https://casept.github.io/tags/snap/</link>
-      <pubDate>Mon, 13 Feb 2017 07:24:28 CET</pubDate>
+      <pubDate>Mon, 13 Feb 2017 07:24:28 &#43;0100</pubDate>
       
       <guid>https://casept.github.io/tags/snap/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Tor</title>
+      <link>https://casept.github.io/tags/tor/</link>
+      <pubDate>Tue, 26 Dec 2017 07:24:28 &#43;0100</pubDate>
+      
+      <guid>https://casept.github.io/tags/tor/</guid>
       <description></description>
     </item>
     

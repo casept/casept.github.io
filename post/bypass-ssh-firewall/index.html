@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Bypassing pesky SSH-blocking firewalls - David Paskevic&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <meta name="keywords" content="">
+  <link rel="canonical" href="https://casept.github.io/post/bypass-ssh-firewall/">
+
+  
+  
+
+  
+  
+
+  
+  
+
+  <link rel="stylesheet" type="text/css" href="https://casept.github.io//css/combined-min.css">
+
+</head>
+<body class="">
+
+<div class="site-wrap">
+  <header class="site-header px2 px-responsive">
+  <div class="mt2 wrap">
+    <div class="measure">
+      <a href="https://casept.github.io/" class="site-title">David Paskevic&#39;s blog</a>
+      <nav class="site-nav right">
+      <a href="/about/">About</a>
+<a href="/tags">Tags</a>
+<a href="/contact/">Contact</a>
+
+</form>
+
+      </nav>
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</header>
+
+  <div class="post p2 p-responsive wrap" role="main">
+    <div class="measure">
+      <div class="post-header mb2">
+        <h1 class="py2">Bypassing pesky SSH-blocking firewalls</h1>
+        <span class="post-meta">Dec 26, 2017 by casept</span><br>
+        
+      </div>
+
+      <article class="post-content">
+      <p>I&rsquo;m writing this on a bus with onboard Wi-Fi. The network works (and is decently fast!), but the provider blocks SSH for some reason, which means I can&rsquo;t push my code to github without reconfiguring my remotes to use HTTP.<br />
+Fortunately, bypassing the firewall is fairly simple:</p>
+
+<ol>
+<li>Install your tools:<br /></li>
+</ol>
+
+<pre><code class="language-shell">sudo apt install tor proxychains
+# Disable tor service if you don't want to start it on boot
+sudo systemctl disable tor
+</code></pre>
+
+<p>In my case the provider also blocked the default tor relays, so I had to obtain some bridges from <code>bridges.torproject.org</code> &hellip;which was also blocked, crap! So I used some seedy web proxy to access the site, and got myself some tor bridges.</p>
+
+<ol>
+<li><p>Add the bridges (if needed):</p>
+
+<pre><code class="language-shell">sudo su
+echo 'Bridge &lt;One of the lines you got from the torproject's site&gt;' &gt;&gt; /etc/tor/torrc&quot;
+</code></pre></li>
+
+<li><p>Start tor:</p>
+
+<pre><code class="language-shell"># Run this in a separate terminal/tmux pane etc. as it needs to run in the background
+tor
+</code></pre></li>
+
+<li><p>Do your git thing:<br />
+<code>proxychains</code> is already preconfigured to use tor, so you don&rsquo;t need to do much here.</p>
+
+<pre><code class="language-shell">proxychains git push
+</code></pre></li>
+</ol>
+
+<p>Note that this should work for most other shell commands as well.</p>
+
+      </article>
+
+      <p class="post-meta">Tags:&nbsp;
+        
+            
+            <a href="https://casept.github.io//tags/debian">debian</a>
+        
+            ,&nbsp;
+            <a href="https://casept.github.io//tags/linux">linux</a>
+        
+            ,&nbsp;
+            <a href="https://casept.github.io//tags/tor">tor</a>
+        
+      </p>
+
+      
+
+    </div>
+  </div>
+</div>
+    <footer class="footer">
+      <div class="p2 wrap">
+        <div class="measure mt1 center">
+      <nav class="social-icons icons">
+<a class="fa fa-rss rss" href="/index.xml"></a>
+
+</nav>
+
+          <small>
+            Copyright &#169; 2017<br>
+            Powered by <a href="http://gohugo.io/" target="_blank">Hugo</a> &amp; <a href="https://github.com/azmelanar/hugo-theme-pixyll" target="_blank">Pixyll</a>
+          </small>
+        </div>
+      </div>
+    </footer>
+
+    
+    <script src="/js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    
+    
+
+
+</body>
+</html>
+

@@ -7,12 +7,12 @@
     <language>en-us</language>
     
     
-    <updated>Thu, 26 Jan 2017 17:04:28 CET</updated>
+    <updated>Thu, 26 Jan 2017 17:04:28 &#43;0100</updated>
     
     <item>
       <title>Downloading files from the internet during a flatpak build</title>
       <link>https://casept.github.io/post/flatpak-download-at-buildtime/</link>
-      <pubDate>Thu, 26 Jan 2017 17:04:28 CET</pubDate>
+      <pubDate>Thu, 26 Jan 2017 17:04:28 &#43;0100</pubDate>
       
       <guid>https://casept.github.io/post/flatpak-download-at-buildtime/</guid>
       <description>Flatpak&amp;rsquo;s official documentation explains how to automate the building of flatpaks. However, what it does not mention is how the build sandbox is configured not to allow &amp;ldquo;unfiltered&amp;rdquo; access to the network at build time. This means that it can be very tricky to build some applications that rely on pulling in dependencies after you have cloned the repo or downloaded the tarball. An example for this are Node.js projects, which require the usage of npm in order to install dependencies.</description>
