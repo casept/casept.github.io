@@ -1,2 +1,4 @@
 *.log
 .vagrant/
+messages.pot
+public/
