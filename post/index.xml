@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-      <title>Posts on David Paskevic&#39;s blog </title>
-      <generator uri="https://gohugo.io">Hugo</generator>
+    <title>Posts on David Paskevic&#39;s blog</title>
     <link>https://casept.github.io/post/</link>
+    <description>Recent content in Posts on David Paskevic&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
+    <lastBuildDate>Tue, 26 Dec 2017 07:24:28 +0100</lastBuildDate>
     
+	<atom:link href="https://casept.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
-    <updated>Tue, 26 Dec 2017 07:24:28 &#43;0100</updated>
     
     <item>
       <title>Bypassing pesky SSH-blocking firewalls</title>
       <link>https://casept.github.io/post/bypass-ssh-firewall/</link>
-      <pubDate>Tue, 26 Dec 2017 07:24:28 &#43;0100</pubDate>
+      <pubDate>Tue, 26 Dec 2017 07:24:28 +0100</pubDate>
       
       <guid>https://casept.github.io/post/bypass-ssh-firewall/</guid>
       <description>I&amp;rsquo;m writing this on a bus with onboard Wi-Fi. The network works (and is decently fast!), but the provider blocks SSH for some reason, which means I can&amp;rsquo;t push my code to github without reconfiguring my remotes to use HTTP.
@@ -24,7 +26,7 @@ Fortunately, bypassing the firewall is fairly simple:
     <item>
       <title>Building LineageOS 14.1 for the S4 value edition (GT-I9515 or jfvelte)</title>
       <link>https://casept.github.io/post/build-lineageos-for-gt-i9515/</link>
-      <pubDate>Tue, 16 May 2017 07:24:28 &#43;0100</pubDate>
+      <pubDate>Tue, 16 May 2017 07:24:28 +0100</pubDate>
       
       <guid>https://casept.github.io/post/build-lineageos-for-gt-i9515/</guid>
       <description>While there&amp;rsquo;s plenty of documentation on how to build LineageOS for officially supported devices, there&amp;rsquo;s hardly any documentation on how to build for an unofficial device and/or on systems which have &amp;lt;16GB RAM and a slower CPU. A lot of the workarounds might be useful for other devices as well. I&amp;rsquo;ll assume that you&amp;rsquo;re using Ubuntu 16.04, though I&amp;rsquo;m sure other distros will work with slight modifications.
@@ -34,7 +36,7 @@ Installing dependencies Install some packages:</description>
     <item>
       <title>Building code::blocks on ubuntu 16.04</title>
       <link>https://casept.github.io/post/compile-codeblocks/</link>
-      <pubDate>Fri, 03 Mar 2017 17:04:28 &#43;0100</pubDate>
+      <pubDate>Fri, 03 Mar 2017 17:04:28 +0100</pubDate>
       
       <guid>https://casept.github.io/post/compile-codeblocks/</guid>
       <description>I&amp;rsquo;m currently creating a snap package for the code::blocks IDE. On the way, I ran into a little snag, namely the build failing with:
@@ -44,7 +46,7 @@ make -j2 CDPATH=&amp;quot;${ZSH_VERSION+.}:&amp;quot; &amp;amp;&amp;amp; cd . &a
     <item>
       <title>Installing snapcraft on debian sid</title>
       <link>https://casept.github.io/post/install-snapcraft-on-debian/</link>
-      <pubDate>Mon, 13 Feb 2017 07:24:28 &#43;0100</pubDate>
+      <pubDate>Mon, 13 Feb 2017 07:24:28 +0100</pubDate>
       
       <guid>https://casept.github.io/post/install-snapcraft-on-debian/</guid>
       <description>Canonical&amp;rsquo;s snapcraft tool unfortunately currently isn&amp;rsquo;t packaged for debian. In this post I&amp;rsquo;ll describe how I got a build of it to work on my machine™. Note that this is a messy process which will give any of the &amp;ldquo;don&amp;rsquo;t make a frankendebian!&amp;rdquo; guys eye cancer, and for good reason.
@@ -56,7 +58,7 @@ What you&amp;rsquo;ll need  patience
     <item>
       <title>Fixing chromium in debian unstable</title>
       <link>https://casept.github.io/post/fix-debian-chromium/</link>
-      <pubDate>Fri, 27 Jan 2017 07:24:28 &#43;0100</pubDate>
+      <pubDate>Fri, 27 Jan 2017 07:24:28 +0100</pubDate>
       
       <guid>https://casept.github.io/post/fix-debian-chromium/</guid>
       <description>For some (in my opinion pants-on-head-retarded) reason the maintainers of the chromium package in debian have chosen to disallow loading of extensions from the chrome store. They claim that this will pave the way towards &amp;ldquo;distro-packaged&amp;rdquo; extensions, but as of yet I haven&amp;rsquo;t seen a single one in the repos, not even ublock. What&amp;rsquo;s worse, the only notice you get is if you upgrade from a version before this &amp;ldquo;fix&amp;rdquo; was applied.</description>
@@ -65,7 +67,7 @@ What you&amp;rsquo;ll need  patience
     <item>
       <title>Downloading files from the internet during a flatpak build</title>
       <link>https://casept.github.io/post/flatpak-download-at-buildtime/</link>
-      <pubDate>Thu, 26 Jan 2017 17:04:28 &#43;0100</pubDate>
+      <pubDate>Thu, 26 Jan 2017 17:04:28 +0100</pubDate>
       
       <guid>https://casept.github.io/post/flatpak-download-at-buildtime/</guid>
       <description>Flatpak&amp;rsquo;s official documentation explains how to automate the building of flatpaks. However, what it does not mention is how the build sandbox is configured not to allow &amp;ldquo;unfiltered&amp;rdquo; access to the network at build time. This means that it can be very tricky to build some applications that rely on pulling in dependencies after you have cloned the repo or downloaded the tarball. An example for this are Node.js projects, which require the usage of npm in order to install dependencies.</description>
@@ -73,4 +75,3 @@ What you&amp;rsquo;ll need  patience
     
   </channel>
 </rss>
-

@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-      <title>Snap on David Paskevic&#39;s blog </title>
-      <generator uri="https://gohugo.io">Hugo</generator>
+    <title>Snap on David Paskevic&#39;s blog</title>
     <link>https://casept.github.io/categories/snap/</link>
+    <description>Recent content in Snap on David Paskevic&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
+    <lastBuildDate>Mon, 13 Feb 2017 07:24:28 +0100</lastBuildDate>
     
+	<atom:link href="https://casept.github.io/categories/snap/index.xml" rel="self" type="application/rss+xml" />
     
-    <updated>Mon, 13 Feb 2017 07:24:28 &#43;0100</updated>
     
     <item>
       <title>Installing snapcraft on debian sid</title>
       <link>https://casept.github.io/post/install-snapcraft-on-debian/</link>
-      <pubDate>Mon, 13 Feb 2017 07:24:28 &#43;0100</pubDate>
+      <pubDate>Mon, 13 Feb 2017 07:24:28 +0100</pubDate>
       
       <guid>https://casept.github.io/post/install-snapcraft-on-debian/</guid>
       <description>Canonical&amp;rsquo;s snapcraft tool unfortunately currently isn&amp;rsquo;t packaged for debian. In this post I&amp;rsquo;ll describe how I got a build of it to work on my machine™. Note that this is a messy process which will give any of the &amp;ldquo;don&amp;rsquo;t make a frankendebian!&amp;rdquo; guys eye cancer, and for good reason.
@@ -23,4 +25,3 @@ What you&amp;rsquo;ll need  patience
     
   </channel>
 </rss>
-
