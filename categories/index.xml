@@ -41,9 +41,18 @@
     <item>
       <title>Linux</title>
       <link>https://casept.github.io/categories/linux/</link>
-      <pubDate>Tue, 26 Dec 2017 07:24:28 +0100</pubDate>
+      <pubDate>Sat, 21 Jul 2018 18:05:50 +0200</pubDate>
       
       <guid>https://casept.github.io/categories/linux/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Openwrt</title>
+      <link>https://casept.github.io/categories/openwrt/</link>
+      <pubDate>Sat, 21 Jul 2018 18:05:50 +0200</pubDate>
+      
+      <guid>https://casept.github.io/categories/openwrt/</guid>
       <description></description>
     </item>
     
@@ -62,6 +71,24 @@
       <pubDate>Tue, 26 Dec 2017 07:24:28 +0100</pubDate>
       
       <guid>https://casept.github.io/categories/tor/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Vpn</title>
+      <link>https://casept.github.io/categories/vpn/</link>
+      <pubDate>Sat, 21 Jul 2018 18:05:50 +0200</pubDate>
+      
+      <guid>https://casept.github.io/categories/vpn/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Wireguard</title>
+      <link>https://casept.github.io/categories/wireguard/</link>
+      <pubDate>Sat, 21 Jul 2018 18:05:50 +0200</pubDate>
+      
+      <guid>https://casept.github.io/categories/wireguard/</guid>
       <description></description>
     </item>
     

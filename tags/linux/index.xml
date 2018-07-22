@@ -6,10 +6,20 @@
     <description>Recent content in Linux on David Paskevic&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 26 Dec 2017 07:24:28 +0100</lastBuildDate>
+    <lastBuildDate>Sat, 21 Jul 2018 18:05:50 +0200</lastBuildDate>
     
 	<atom:link href="https://casept.github.io/tags/linux/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Setting up a wireguard server running on an OpenWRT router</title>
+      <link>https://casept.github.io/post/wireguard-server-on-openwrt-router/</link>
+      <pubDate>Sat, 21 Jul 2018 18:05:50 +0200</pubDate>
+      
+      <guid>https://casept.github.io/post/wireguard-server-on-openwrt-router/</guid>
+      <description>Motivation I&amp;rsquo;ve been trying to find a decent DIY VPN solution for quite a while now. They all seem easy to configure at first, but the weirdness and workarounds just kept piling up until I realized that I&amp;rsquo;ve been to busy cursing at $VPN_SOLUTION to get any sleep.
+Wireguard is a relative newcomer to the scene, having been widely known for only about a year now. It&amp;rsquo;s approach to building a VPN is rather unique in that it doesn&amp;rsquo;t force you to set up an entire PKI just to connect your phone to the VPN (looking at you, OpenVPN&amp;hellip;).</description>
+    </item>
     
     <item>
       <title>Bypassing pesky SSH-blocking firewalls</title>

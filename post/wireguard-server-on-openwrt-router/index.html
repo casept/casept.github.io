@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Setting up a wireguard server running on an OpenWRT router - David Paskevic&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <meta name="keywords" content="">
+  <link rel="canonical" href="https://casept.github.io/post/wireguard-server-on-openwrt-router/">
+
+  
+  
+
+  
+  
+
+  
+  
+
+  <link rel="stylesheet" type="text/css" href="https://casept.github.io//css/combined-min.css">
+
+</head>
+<body class="">
+
+<div class="site-wrap">
+  <header class="site-header px2 px-responsive">
+  <div class="mt2 wrap">
+    <div class="measure">
+      <a href="https://casept.github.io/" class="site-title">David Paskevic&#39;s blog</a>
+      <nav class="site-nav right">
+      <a href="https://casept.github.io//about/">About</a>
+<a href="https://casept.github.io//tags/">Tags</a>
+<a href="https://casept.github.io//contact/">Contact</a>
+</form>
+
+      </nav>
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</header>
+
+  <div class="post p2 p-responsive wrap" role="main">
+    <div class="measure">
+      <div class="post-header mb2">
+        <h1 class="py2">Setting up a wireguard server running on an OpenWRT router</h1>
+        <span class="post-meta">Jul 21, 2018 by casept</span><br>
+        
+      </div>
+
+      <article class="post-content">
+      
+
+<h1 id="motivation">Motivation</h1>
+
+<p>I&rsquo;ve been trying to find a decent DIY VPN solution for quite a while now.
+They all seem easy to configure at first, but the weirdness and workarounds just kept piling up until I realized that I&rsquo;ve been to busy cursing at $VPN_SOLUTION to get any sleep.</p>
+
+<p>Wireguard is a relative newcomer to the scene, having been widely known for only about a year now.
+It&rsquo;s approach to building a VPN is rather unique in that it doesn&rsquo;t force you to set up an entire PKI just to connect your phone to the VPN (looking at you, OpenVPN&hellip;). Instead, it only focuses on creating a secure tunnel between machines, leaving key managment and other such intricacies to you. This means that you&rsquo;re much more free in choosing the security vs. complexity tradeoff that applies in your particular case. After all, you probably just want to enjoy your Linux ISOs on the go, not run a F500 company&rsquo;s IT department.</p>
+
+<p>Unfortunately, it&rsquo;s also not the most well-doumented piece of software out there. This post took a few days of scraping together information from way too many forum threads and blog posts to write. Even though the software is fairly new, I&rsquo;m still surprised that nobody has done a (somewhat) comprehensive writeup of this before&hellip;</p>
+
+<h1 id="disclaimer">Disclaimer</h1>
+
+<p>I&rsquo;m not particularly experienced with networking or OpenWRT, so this setup took me quite a while to figure out and might be flawed in (not-so) subtle ways (I lost my internet connection several times while figuring out this setup). Implement at your own risk.</p>
+
+<h1 id="prerequisites">Prerequisites</h1>
+
+<p>You&rsquo;ll need:</p>
+
+<ul>
+<li>A router with a recent-ish version of OpenWRT or LEDE installed</li>
+<li>A few megs of flash space on the router for packages and config</li>
+<li>SSH access to the router</li>
+<li>At least a /64 IPv6 prefix, if you want to use IPv6 tunnels. (I recommend getting a 6in4 tunnel from Hurricane Electric if your ISP doesn&rsquo;t offer native IPv6.)</li>
+<li>The client&rsquo;s network should also be IPv6-capable, or v6 tunneling won&rsquo;t work.</li>
+<li>A public IPv4 address (If your carrier doesn&rsquo;t do CGNAT you probably have one).</li>
+</ul>
+
+<h1 id="setup">Setup</h1>
+
+<h3 id="installing-packages">Installing packages</h3>
+
+<p><code>ssh</code> into your router and install the needed packages:</p>
+
+<pre><code class="language-shell">opkg update
+opkg install luci-proto-wireguard luci-app-wireguard wireguard kmod-wireguard wireguard-tools
+</code></pre>
+
+<p>Reboot your router now, as some models will give you trouble when creating the interface if you don&rsquo;t.</p>
+
+<h3 id="punching-a-hole-in-the-firewall">Punching a hole in the firewall</h3>
+
+<p>You need to configure the builtin firewall so that the wireguard port is exposed:</p>
+
+<pre><code class="language-shell">uci add firewall rule
+uci set firewall.@rule[-1].src=&quot;*&quot;
+uci set firewall.@rule[-1].target=&quot;ACCEPT&quot;
+uci set firewall.@rule[-1].proto=&quot;udp&quot;
+uci set firewall.@rule[-1].dest_port=&quot;1234&quot;
+uci set firewall.@rule[-1].name=&quot;Allow-Wireguard-Inbound&quot;
+uci commit firewall
+/etc/init.d/firewall restart
+</code></pre>
+
+<h3 id="creating-and-setting-up-a-separate-wireguard-firewall-zone">Creating and setting up a separate Wireguard firewall zone</h3>
+
+<p>We&rsquo;re going to place the wireguard interface in it&rsquo;s own firewall zone:</p>
+
+<pre><code class="language-shell"># Add the firewall zone
+uci add firewall zone
+uci set firewall.@zone[-1].name='wg'
+uci set firewall.@zone[-1].input='ACCEPT'
+uci set firewall.@zone[-1].forward='ACCEPT'
+uci set firewall.@zone[-1].output='ACCEPT'
+uci set firewall.@zone[-1].masq='1'
+# Add the WG interface to it
+uci set firewall.@zone[-1].network='wg0'
+# Forward WAN and LAN traffic to/from it
+uci add firewall forwarding
+uci set firewall.@forwarding[-1].src='wg'
+uci set firewall.@forwarding[-1].dest='wan'
+uci add firewall forwarding
+uci set firewall.@forwarding[-1].src='wg'
+uci set firewall.@forwarding[-1].dest='lan'
+uci add firewall forwarding
+uci set firewall.@forwarding[-1].src='lan'
+uci set firewall.@forwarding[-1].dest='wg'
+uci add firewall forwarding
+uci set firewall.@forwarding[-1].src='wan'
+uci set firewall.@forwarding[-1].dest='wg'
+uci commit firewall
+/etc/init.d/firewall restart
+</code></pre>
+
+<p>This step is probably optional (you could just add the interface to the <code>lan</code> zone). I perform it here because it allows for finer-grained firewall rules in the future.</p>
+
+<h3 id="setting-up-the-wireguard-interface">Setting up the wireguard interface</h3>
+
+<p>In order for wireguard to work you have to generate a keypair for the server (like with SSH):</p>
+
+<pre><code class="language-shell"># Generate the private key, setting it to only be readable by the current user and group.
+umask 077 &amp;&amp; wg genkey &gt; privkey
+# Derive the public key from it
+cat privkey | wg pubkey &gt; pubkey
+</code></pre>
+
+<p>Now that we have the keypair we can begin initializing the interface:</p>
+
+<pre><code class="language-shell"># wg0 is the name of the wireguard interface, replace it if you wish.
+uci set network.wg0=&quot;interface&quot;
+uci set network.wg0.proto=&quot;wireguard&quot;
+uci set network.wg0.private_key=&quot;$(cat privkey)&quot;
+# You may change this port to your liking, ports of popular services get through more firewalls.
+# Just remember it for when you have to configure the firewall later.
+uci set network.wg0.listen_port=&quot;1234&quot;
+uci add_list network.wg0.addresses='&lt;A /64 (or greater) IPv6 subnet for client use&gt;'
+uci add_list network.wg0.addresses='&lt;An IPv4 subnet for client use, in CIDR notation&gt;'
+# Save the changes
+uci commit network
+/etc/init.d/network reload
+</code></pre>
+
+<h3 id="configuring-the-android-client">Configuring the (Android) client</h3>
+
+<p>I only cover the Android client here because the desktop clients are (relatively well) documented on the project&rsquo;s site. On the other hand, the Android client required me poking at some IP fields for a while to figure it out (which is why I&rsquo;ll document it here).</p>
+
+<ol>
+<li><p>Install the app from <a href="https://play.google.com/store/apps/details?id=com.wireguard.android&amp;hl=en_US">google play</a> or <a href="https://f-droid.org/en/packages/com.wireguard.android/">f-droid</a>.</p></li>
+
+<li><p>Create a profile by clicking on the &ldquo;+&rdquo; and on &ldquo;create from scratch&rdquo;.</p></li>
+
+<li><p>Think of a name for your connection (it&rsquo;s arbitrary).</p></li>
+
+<li><p>Hit the &ldquo;generate&rdquo; button to create a public/private keypair for your client.</p></li>
+
+<li><p>Set &ldquo;DNS servers&rdquo; to your DNS server (typically your router&rsquo;s private address).</p></li>
+
+<li><p>Enter &ldquo;0.0.0.0/0, ::/0&rdquo; into the &ldquo;allowed IPs&rdquo; field. This way, traffic to any IP will be forwarded through the tunnel.</p></li>
+
+<li><p>Enter &ldquo;25&rdquo; in the &ldquo;persistent keepalive&rdquo; field so that the connection doesn&rsquo;t get dropped by some NAT setups.</p></li>
+
+<li><p>Enter your router&rsquo;s public IP address and WG port into the &ldquo;Endpoint&rdquo; field in the format ip:port.</p></li>
+
+<li><p>Enter a subnet of the IPv4 subnet you configured on the server, followed by a comma and an IPv6 subnet (also a subnet of the IPv6 subnet you configured on the server). For example, if the IPv4 subnet is <code>10.14.0.0/16</code> and the IPv6 subnet is <code>eeee:1234:8790::/60</code> then a valid entry would be <code>10.14.0.3/32, eeee:1234:8790::/64</code>. Just make sure each client gets it&rsquo;s own range, or you might get some nasty collisions.</p></li>
+</ol>
+
+<p>You&rsquo;ll also need to set the client up on your server:</p>
+
+<pre><code class="language-shell"># Change all occurences of &quot;wireguard_wg0&quot; to something else (like wireguard_wg1, wireguard_wg2 and so on) for subsequent clients after the 1st
+uci add network wireguard_wg0
+uci set network.@wireguard_wg0[-1].public_key=&quot;&lt;your client's pubkey&gt;&quot;
+# Allow the client to forward traffic to any IP through the tunnel
+uci set network.@wireguard_wg0[-1].route_allowed_ips=&quot;1&quot;
+uci add_list network.@wireguard_wg0[-1].allowed_ips=&quot;0.0.0.0/0&quot;
+uci add_list network.@wireguard_wg0[-1].allowed_ips=&quot;::/0&quot;
+# Enable sending of keepalive packets so NAT routers don't terminate the connection. WG recommends a value of 25.
+uci set network.@wireguard_wg0[-1].persistent_keepalive='25'
+# What you want your client to show up as in the UI
+uci set network.@wireguard_wg0[-1].description='&lt;client name&gt;'
+uci commit network
+/etc/init.d/network reload
+</code></pre>
+
+<p>Repeat for all clients you wish to add.</p>
+
+<p>You might also need to restart your router again (at least that was the case for me, before the restart WG didn&rsquo;t recognize any clients).</p>
+
+<p>Aaand you&rsquo;re done! (Hopefully&hellip;)</p>
+
+<h4 id="references">References:</h4>
+
+<p>All these posts helped me tremendously in figuring out this setup:</p>
+
+<ol>
+<li><p><a href="https://danrl.com/blog/2016/travel-wifi/">https://danrl.com/blog/2016/travel-wifi/</a> - extremely helpful post by the guy who implemented WG support in OpenWRT.</p></li>
+
+<li><p><a href="https://wireguard.org">https://wireguard.org</a> - The WG project site.</p></li>
+
+<li><p><a href="https://github.com/Chadster766/McWRT/wiki/Hurricane-Electric-Tunnelbroker-IPv6-Setup">https://github.com/Chadster766/McWRT/wiki/Hurricane-Electric-Tunnelbroker-IPv6-Setup</a> - Guide for setting up a 6in4 tunnel.</p></li>
+
+<li><p><a href="https://danrl.com/blog/2017/luci-proto-wireguard/">https://danrl.com/blog/2017/luci-proto-wireguard/</a> - This post covers setting up the server, but doesn&rsquo;t go into lots of detail.</p></li>
+
+<li><p><a href="https://wiki.openwrt.org/doc/uci/firewall#forwarding_ipv6_tunnel_traffic">https://wiki.openwrt.org/doc/uci/firewall#forwarding_ipv6_tunnel_traffic</a> - Documents setting up forwarding for a tunnel.</p></li>
+
+<li><p><a href="https://forum.lede-project.org/t/solved-wireguard-dns-leak-on-the-mobile-device/14640/9">https://forum.lede-project.org/t/solved-wireguard-dns-leak-on-the-mobile-device/14640/9</a> - Helped me figure out what addresses to enter on the client</p></li>
+</ol>
+
+      </article>
+
+      <p class="post-meta">Tags:&nbsp;
+        
+            
+            <a href="https://casept.github.io//tags/openwrt">openwrt</a>
+        
+            ,&nbsp;
+            <a href="https://casept.github.io//tags/linux">linux</a>
+        
+            ,&nbsp;
+            <a href="https://casept.github.io//tags/vpn">vpn</a>
+        
+            ,&nbsp;
+            <a href="https://casept.github.io//tags/wireguard">wireguard</a>
+        
+      </p>
+
+      
+
+    </div>
+  </div>
+</div>
+    <footer class="footer">
+      <div class="p2 wrap">
+        <div class="measure mt1 center">
+      <nav class="social-icons icons">
+<a class="fa fa-rss rss" href="/index.xml"></a>
+
+</nav>
+
+          <small>
+            Copyright &#169; 2017<br>
+            Powered by <a href="http://gohugo.io/" target="_blank">Hugo</a> &amp; <a href="https://github.com/azmelanar/hugo-theme-pixyll" target="_blank">Pixyll</a>
+          </small>
+        </div>
+      </div>
+    </footer>
+
+    
+    <script src="/js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    
+    
+
+
+</body>
+</html>
+
