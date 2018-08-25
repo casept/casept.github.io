@@ -41,9 +41,27 @@
     <item>
       <title>Linux</title>
       <link>https://casept.github.io/categories/linux/</link>
-      <pubDate>Sat, 21 Jul 2018 18:05:50 +0200</pubDate>
+      <pubDate>Sat, 25 Aug 2018 20:22:50 +0200</pubDate>
       
       <guid>https://casept.github.io/categories/linux/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Lxd</title>
+      <link>https://casept.github.io/categories/lxd/</link>
+      <pubDate>Sat, 25 Aug 2018 20:22:50 +0200</pubDate>
+      
+      <guid>https://casept.github.io/categories/lxd/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Networking</title>
+      <link>https://casept.github.io/categories/networking/</link>
+      <pubDate>Sat, 25 Aug 2018 20:22:50 +0200</pubDate>
+      
+      <guid>https://casept.github.io/categories/networking/</guid>
       <description></description>
     </item>
     

@@ -6,10 +6,19 @@
     <description>Recent content in Linux on David Paskevic&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 21 Jul 2018 18:05:50 +0200</lastBuildDate>
+    <lastBuildDate>Sat, 25 Aug 2018 20:22:50 +0200</lastBuildDate>
     
 	<atom:link href="https://casept.github.io/tags/linux/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Using a bridged LXD network</title>
+      <link>https://casept.github.io/post/lxd-bridged/</link>
+      <pubDate>Sat, 25 Aug 2018 20:22:50 +0200</pubDate>
+      
+      <guid>https://casept.github.io/post/lxd-bridged/</guid>
+      <description>The regular network configuration created when simply running lxd init --auto is quite simple and usable. Unfortunately, it has one major drawback - NAT. Because LXD creates it&amp;rsquo;s own private network you have to deal with port forwarding, and some services (pi-hole for example) take issue with not being able to use an address that is part of the network their clients are on. In addition, this setup makes the containers impossible to easily reach over IPv6.</description>
+    </item>
     
     <item>
       <title>Setting up a wireguard server running on an OpenWRT router</title>

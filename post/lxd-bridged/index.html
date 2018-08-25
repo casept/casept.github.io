@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Using a bridged LXD network - David Paskevic&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <meta name="keywords" content="">
+  <link rel="canonical" href="https://casept.github.io/post/lxd-bridged/">
+
+  
+  
+
+  
+  
+
+  
+  
+
+  <link rel="stylesheet" type="text/css" href="https://casept.github.io//css/combined-min.css">
+
+</head>
+<body class="">
+
+<div class="site-wrap">
+  <header class="site-header px2 px-responsive">
+  <div class="mt2 wrap">
+    <div class="measure">
+      <a href="https://casept.github.io/" class="site-title">David Paskevic&#39;s blog</a>
+      <nav class="site-nav right">
+      <a href="https://casept.github.io//about/">About</a>
+<a href="https://casept.github.io//tags/">Tags</a>
+<a href="https://casept.github.io//contact/">Contact</a>
+</form>
+
+      </nav>
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</header>
+
+  <div class="post p2 p-responsive wrap" role="main">
+    <div class="measure">
+      <div class="post-header mb2">
+        <h1 class="py2">Using a bridged LXD network</h1>
+        <span class="post-meta">Aug 25, 2018 by casept</span><br>
+        
+      </div>
+
+      <article class="post-content">
+      
+
+<p>The regular network configuration created when simply running <code>lxd init --auto</code> is quite simple and usable. Unfortunately, it has one major drawback - NAT. Because LXD creates it&rsquo;s own private network you have to deal with port forwarding, and some services (<code>pi-hole</code> for example) take issue with not being able to use an address that is part of the network their clients are on. In addition, this setup makes the containers impossible to easily reach over IPv6.</p>
+
+<p>The fix for these issues is fairly strightforward - expose the containers to the host&rsquo;s network directly, so that they get an IP from the router, and every device on the LAN can talk to them directly. The most common way to do it is to use a so-called &ldquo;bridge interface&rdquo;. Basically, a bridge interface is an ethernet interface that simply passes along layer 2 traffic from the containers to the host network, with the container interface&rsquo;s MAC address intact. This way the router recognizes each as a different machine, and gives them IP addresses.
+Note that this only works with ethernet, most wireless drivers/network setups don&rsquo;t support it.</p>
+
+<p>Several tutorials already cover this setup, but none include the &ldquo;gotchas&rdquo; I encountered.</p>
+
+<h1 id="prerequisites">Prerequisites</h1>
+
+<ul>
+<li>A host running ubuntu 17.10 or later</li>
+<li>Root access</li>
+<li>No docker installed on the host (explanation below)</li>
+</ul>
+
+<h1 id="setup">Setup</h1>
+
+<p>First, back up all your containers, just to be safe.</p>
+
+<p>Next, create a bridge interface using <code>netplan</code>. Essentially, <code>netplan</code> unifies network configuration in one place on newer ubuntu versions.</p>
+
+<p>Create a new file under <code>/etc/netplan/99-lxd-bridge.yaml</code> (Note: <strong>.yaml, not .yml!</strong> Also, the file has to be run once the physical interface has been configured, hence the <code>99-</code>.):</p>
+
+<pre><code class="language-yaml">network:
+  version: 2
+  renderer: networkd
+  bridges:
+    br0:
+      dhcp4: yes
+      interfaces:
+        # Replace this with your ethernet interface
+        - enp0s25
+</code></pre>
+
+<p>Then, apply the configuration:</p>
+
+<pre><code class="language-shell">sudo netplan --debug apply
+</code></pre>
+
+<p>You should see <code>br0</code> mentioned in the output.
+Also, this command will kill your SSH connection if you&rsquo;re connected via the physical interface.</p>
+
+<p>If you have configured some kind of static DHCP lease or anything else that depends on the physical interface&rsquo;s MAC address you might have to replace it with the bridge&rsquo;s MAC address.</p>
+
+<p>Next, configure LXD to use your bridge:</p>
+
+<pre><code class="language-shell"># Answer &quot;no&quot; when prompted whether to create a new bridge
+# When asked whether to use an existing bridge, answer &quot;yes&quot; and enter &quot;br0&quot; at the next prompt.
+sudo lxd init
+</code></pre>
+
+<p>At this point you <em>should</em> be able to create a container using your bridge:</p>
+
+<pre><code class="language-shell">sudo lxc launch ubuntu:18.04 test
+sudo lxc exec test bash
+ifconfig
+</code></pre>
+
+<p>You <em>should</em> see an IPv4 address that&rsquo;s within your host&rsquo;s subnet, and several IPv6 addresses.
+Unfortunately, in my case IPv4 simply didn&rsquo;t work - Everything worked as far as IPv6 was concerned, though.</p>
+
+<p>After a frustrated morning I figured out the cause of my issues - docker! I didn&rsquo;t investigate further, but I&rsquo;d guess that the way docker configures it&rsquo;s bridge doesn&rsquo;t sit well with LXD for some reason. I&rsquo;m sure that it can be worked around, but I wanted to transfer docker into an LXD container anyways, so I simply removed it from the host.</p>
+
+      </article>
+
+      <p class="post-meta">Tags:&nbsp;
+        
+            
+            <a href="https://casept.github.io//tags/linux">linux</a>
+        
+            ,&nbsp;
+            <a href="https://casept.github.io//tags/lxd">lxd</a>
+        
+            ,&nbsp;
+            <a href="https://casept.github.io//tags/networking">networking</a>
+        
+      </p>
+
+      
+
+    </div>
+  </div>
+</div>
+    <footer class="footer">
+      <div class="p2 wrap">
+        <div class="measure mt1 center">
+      <nav class="social-icons icons">
+<a class="fa fa-rss rss" href="/index.xml"></a>
+
+</nav>
+
+          <small>
+            Copyright &#169; 2017<br>
+            Powered by <a href="http://gohugo.io/" target="_blank">Hugo</a> &amp; <a href="https://github.com/azmelanar/hugo-theme-pixyll" target="_blank">Pixyll</a>
+          </small>
+        </div>
+      </div>
+    </footer>
+
+    
+    <script src="/js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    
+    
+
+
+</body>
+</html>
+
