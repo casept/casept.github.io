@@ -174,7 +174,7 @@ All these posts helped me tremendously in figuring out this setup:
 
   1. https://danrl.com/blog/2016/travel-wifi/ - extremely helpful post by the guy who implemented WG support in OpenWRT.
 
-  2. https://wireguard.org - The WG project site.
+  2. https://wireguard.com - The WG project site.
 
   3. https://github.com/Chadster766/McWRT/wiki/Hurricane-Electric-Tunnelbroker-IPv6-Setup - Guide for setting up a 6in4 tunnel.
 
