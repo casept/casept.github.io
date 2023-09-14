@@ -1,3 +1,4 @@
 *.log
 .vagrant/
 messages.pot
+.hugo_build.lock
